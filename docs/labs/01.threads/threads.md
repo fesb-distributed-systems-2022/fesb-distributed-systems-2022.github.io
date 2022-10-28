@@ -592,7 +592,7 @@ using System.Threading.Tasks;
 3. Add method `DoCompute` to class `Program`:
 
 ```csharp
-private static int DoCompute(CancellationToken token, int num)
+private static int DoCompute(int num, CancellationToken token)
 {
     var managedThreadId = Thread.CurrentThread.ManagedThreadId;
     var total = 0;
@@ -626,7 +626,7 @@ private static int DoCompute(CancellationToken token, int num)
         using var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.Token.Register(() => Console.WriteLine($"Thread {managedThreadId}: Canceled!"));
         
-        var task = new Task<int>(() => DoCompute(cancellationTokenSource.Token, 100), cancellationTokenSource.Token);
+        var task = new Task<int>(() => DoCompute(100, cancellationTokenSource.Token), cancellationTokenSource.Token);
         task.Start();
 
         Thread.Sleep(2000);
@@ -790,31 +790,31 @@ private const int NumberOfIterations = 100;
 private static readonly Stopwatch stopwatch = new();
 ```
 
-4. Implement method `Work` in class `Program` to do blocking call for 100 milliseconds:
+4. Implement methods `Work` and `WorkAsync` in class `Program` to do blocking call for 100 milliseconds:
 
 ```csharp
-private static void Work(int iterationNumber)
+private static void Work()
 {
-    var managedThreadId = Environment.CurrentManagedThreadId;
-    
-    Console.WriteLine($"Thread {managedThreadId} starting work on iteration number {iterationNumber}.");
-    Task.Delay(100).Wait();
-    Console.WriteLine($"Thread {managedThreadId} finished working.");
+    Task.Delay(WorkDuration).Wait();
+}
+
+private static async Task AsyncWork()
+{
+    await Task.Delay(WorkDuration);
 }
 ```
 
 5. Implement method `DoWorkSynchronously` in class `Program` to do call synchronously method `Work` for `NumberOfIterations` times:
 
-6. Implement method `DoWorkAsynchronously` in class `Program`:
+6. Implement method `DoWorkParallel` in class `Program`:
 
 ```csharp
-private static async Task DoWorkAsynchronously()
+private static async Task DoWorkParallel()
 {
     var tasks = new List<Task>();
     for (var i = 0; i < NumberOfIterations; i++)
     {
-        var iterationNumber = i;
-        var task = new Task(() => Work(iterationNumber));
+        var task = new Task(() => Work());
         task.Start();
         tasks.Add(task);
     }
@@ -822,23 +822,51 @@ private static async Task DoWorkAsynchronously()
 }
 ```
 
-7. Implement method `Main` in class `Program`:
+1. Implement method `DoWorkParallelAsync` in class `Program`:
+
+```csharp
+private static async Task DoWorkParallelAsync()
+{
+    var tasks = new List<Task>();
+    for (int i = 0; i < NumberOfIterations; i++)
+    {
+        var task = new Task(async () => await WorkAsync());
+        task.Start();
+        tasks.Add(task);
+    }
+    await Task.WhenAll(tasks);
+}
+```
+
+1. Implement method `Main` in class `Program`:
 
 ```csharp
 public static async Task Main()
 {
-    stopwatch.Restart();
-    await DoWorkAsynchronously();
-    stopwatch.Stop();
-    var asyncCodeDuration = stopwatch.Elapsed;
-            
-    stopwatch.Restart();
-    DoWorkSynchronously();
-    stopwatch.Stop();
-    var syncCodeDuration = stopwatch.Elapsed;
+    // 20 seconds is getting too long
+    if (NumberOfIterations < 20)
+    {
+        stopwatch.Restart();
+        DoWorkSynchronously();
+        stopwatch.Stop();
+        var syncCodeDuration = stopwatch.Elapsed;
+        Console.WriteLine($"Synchronous code Duration {syncCodeDuration}");
+    }
 
-    Console.WriteLine($"Asynchronous code duration {asyncCodeDuration}");
-    Console.WriteLine($"Synchronous code Duration {syncCodeDuration}");
+    if (NumberOfIterations < 2000)
+    {
+        stopwatch.Restart();
+        await DoWorkParallel();
+        stopwatch.Stop();
+        var parallelCodeDuration = stopwatch.Elapsed;
+        Console.WriteLine($"Parallel blocking code duration {parallelCodeDuration}");
+    }
+
+    stopwatch.Restart();
+    await DoWorkParallelAsync();
+    stopwatch.Stop();
+    var asyncParallelCodeDuration = stopwatch.Elapsed;
+    Console.WriteLine($"Asynchronous parallel code duration {asyncParallelCodeDuration}");
 }
 ```
 
