@@ -1,4 +1,4 @@
-# Distributed Systems
+# Distributed Information Systems
 
 ## Labs
 

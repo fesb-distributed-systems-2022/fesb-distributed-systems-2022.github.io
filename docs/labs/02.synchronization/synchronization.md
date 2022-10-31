@@ -146,7 +146,7 @@ public static async Task Main()
 Execute the project and the output similar to the following will appear:
 
 ```shell
- dotnet run --project Synchronization.AtomicOperations/Synchronization.AtomicOperations.csproj
+$ dotnet run --project Synchronization.AtomicOperations/Synchronization.AtomicOperations.csproj
 You have 10 cores installed.
 Volatile sum: 99769
 Interlocked sum: 100000
@@ -179,6 +179,7 @@ using System.Threading.Tasks;
 - Add following implementation to method `AddNumbers`:
 
 ```csharp
+    private static void AddNumbers()
     {
         var threadId = Environment.CurrentManagedThreadId;
         while (Interlocked.Exchange(ref s_locker, 1) != 0)
@@ -224,7 +225,7 @@ using System.Threading.Tasks;
 - Execute the project and the output similar to the following will appear:
 
 ```shell
- dotnet run --project Synchronization.InterlockedOperations/Synchronization.InterlockedOperations.csproj
+$ dotnet run --project Synchronization.InterlockedOperations/Synchronization.InterlockedOperations.csproj
 Thread 4 has acquired lock
 Thread 6 is waiting for lock to release
 total = 5
@@ -378,7 +379,7 @@ dotnet sln add Synchronization.KernelSynchronizations/Synchronization.KernelSync
 - Execute the project and the output similar to the following will appear:
 
 ```shell
- dotnet run --project Synchronization.KernelSynchronizations/Synchronization.KernelSynchronizations.csproj
+$ dotnet run --project Synchronization.KernelSynchronizations/Synchronization.KernelSynchronizations.csproj
 Press any key to signal raise autoRaiseEvent signal ...
 Waiting for auto raise event to be signaled ...
 autoRaiseEvent is signaled.
@@ -592,7 +593,7 @@ public class Consumer
 - Execute the project and the output similar to the following will appear:
 
 ```shell
- dotnet run --project Synchronization.ProducerConsumer/Synchronization.ProducerConsumer.csproj
+$ dotnet run --project Synchronization.ProducerConsumer/Synchronization.ProducerConsumer.csproj
 Thread 6 is waiting
 00 00 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00 00 00
@@ -759,7 +760,7 @@ public class Consumer
 - Execute the project and the output similar to the following will appear:
 
 ```shell
- dotnet run --project Synchronization.MultipleProducersConsumers/Synchronization.MultipleProducersConsumers.csproj
+$ dotnet run --project Synchronization.MultipleProducersConsumers/Synchronization.MultipleProducersConsumers.csproj
 Producer Producer2 wrote 0 to channel.
 Producer Producer1 wrote 0 to channel.
 Producer Producer1 wrote 1 to channel.
@@ -884,7 +885,7 @@ public class Account
 - Execute the project and the output similar to the following will appear:
 
 ```shell
- dotnet run --project Synchronization.ProvokingDeadLock/Synchronization.ProvokingDeadLock.csproj
+$ dotnet run --project Synchronization.ProvokingDeadLock/Synchronization.ProvokingDeadLock.csproj
 Account Second Account Thread 6 acquired lock 1.
 Account First Account Thread 4 acquired lock 1.
 Account First Account Thread 4 trying to acquire lock 2.
@@ -1009,7 +1010,7 @@ public class Account
 - Execute the project and the output similar to the following will appear:
 
 ```shell
- dotnet run --project Synchronization.Mutexes/Synchronization.Mutexes.csproj
+$ dotnet run --project Synchronization.Mutexes/Synchronization.Mutexes.csproj
 Account First T4: All locks are acquired.
 Account First T4: Transfer is performed.
 Account First T4: All locks are released.

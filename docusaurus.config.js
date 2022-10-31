@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/vsDark');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Distributed Systems',
+  title: 'Distributed Information Systems',
   tagline: '',
   url: 'https://fesb-distributed-systems-2022.github.io',
   baseUrl: '/',
@@ -41,7 +41,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Distributed Systems',
+        title: 'Distributed Information Systems',
         logo: {
           alt: 'FESB Logo',
           src: 'img/fesb.svg',
