@@ -34,7 +34,7 @@ A thread is a single path of execution within a process.
 
 ### **Create a Project**
 
-1. Create a C# WPF project, named Threads.ResponsiveUi in solution Threads.
+- Create a C# WPF project, named Threads.ResponsiveUi in solution Threads.
 
 ```shell
 dotnet new sln --name Threads
@@ -42,7 +42,7 @@ dotnet new wpf --name Threads.ResponsiveUi
 dotnet sln add Threads.ResponsiveUi/Threads.ResponsiveUi.csproj
 ```
 
-2. Add the following code to class `MainWindow.xaml`:
+- Add the following code to class `MainWindow.xaml`:
 
 ```xml
 <Window x:Class="Threads.ResponsiveUi.MainWindow"
@@ -59,7 +59,7 @@ dotnet sln add Threads.ResponsiveUi/Threads.ResponsiveUi.csproj
 </Window>
 ```
 
-3. Add the following code to class `MainWindow.xaml.cs`:
+- Add the following code to class `MainWindow.xaml.cs`:
 
 ```csharp
 using System;
@@ -116,7 +116,7 @@ namespace Threads.ResponsiveUi
 
 ### **Run the Project**
 
-1. Execute the project and the output similar to the following will appear:
+- Execute the project and the output similar to the following will appear:
 
 ![responsive-gui-app](responsive-gui-app.jpg)
 
@@ -128,13 +128,13 @@ Threads are implemented in the kernel and *Windows switches **threads not proces
 
 Every thread has:
 
-- The kernel object: 
+- The kernel object:
     - It stores information about the thread that is used to perform the context switch. For instance, it contains a copy of the CPU registers.
 
 - The thread environment block (TEB)
     - It stores information such as thread exception handling chain and thread local-storage.
 
- - The user and kernel stacks
+- The user and kernel stacks
     - They store stack frames for executing user and kernel code. The user stack is typically 1M and the kernel stack is typically 24k.
 
 - DLL notification mechanisms
@@ -145,6 +145,7 @@ Assigning threads to processors is called the context switch.
 In the Windows context switch is performed every 30 ms.
 
 To perform the context switch Windows must:
+
 - Save the registers of the currently running thread.
 - Select one thread from the set of existing threads. If the selected thread is in another process Windows must switch the virtual address space.
 - Load the registers of the selected thread.
@@ -164,10 +165,10 @@ Thread methods receive either no parameters or an object and return void.
 
 A thread can be:
 
- - A **foreground** thread
+- A **foreground** thread
     - Threads used to perform tasks that you want to complete. The application is active until all
 
- - A **background** thread
+- A **background** thread
     - The application (foreground threads) do not wait for background threads. When all foreground threads terminate the process will terminate. Background threads are typically used for tasks that depend on foreground threads - e.g. spelling checking is not necessary when the process is terminated.
 
 The UML of the application you will create is shown below:
@@ -176,17 +177,16 @@ The UML of the application you will create is shown below:
 
 ### **Create a Project**
 
-Create a C# Console project, named CreatingThreads in solution Threads.
-
+- Create a C# Console project, named CreatingThreads in solution Threads.
 
 ```shell
 dotnet new console --name Threads.CreatingThreads
 dotnet sln add Threads.CreatingThreads/Threads.CreatingThreads.csproj
 ```
 
-Add class `ConcurrentCode` to the project.
+- Add class `ConcurrentCode` to the project.
 
-Thread methods have predefined signatures. Add the following code to class `ConcurrentCode`:
+- Thread methods have predefined signatures. Add the following code to class `ConcurrentCode`:
 
 ```csharp
 using System;
@@ -233,7 +233,7 @@ namespace Threads.CreatingThreads
 }
 ```
 
-Add the following code to class `Program`:
+- Add the following code to class `Program`:
 
 ```csharp
 using System;
@@ -290,20 +290,21 @@ Threads can generally be in three states: **running**, **blocked**, and **ready*
 
 In this exercise, the following methods from class Thread will be used:
 
- - **Sleep** 
+- **Sleep**
     - Puts a thread to sleep for a time specified in milliseconds.
- - **SpinWait** 
+- **SpinWait**
     - Causes a thread to wait the number of times defined by the iteration parameter.
- - **Interrupt** 
+- **Interrupt**
     - Wakes up a sleeping thread by raising an exception in the target thread's code.
- - **Join** 
-    -  Waits for threads to terminate the execution.
+- **Join**
+    - Waits for threads to terminate the execution.
 
 Following methods to manage thread state got **deprecated** because they might cause unexpected behavior if executed while thread is in critical session.
-  - **Abort**
+
+- **Abort**
     - Terminates a thread by raising 2 exceptions in the target thread’s code. Exception will be throw at the end of the finally block one more time if ResetAbort is not called in the catch block.
- - **ResetAbort** 
-    -  Prevents itself to be terminated. 
+- **ResetAbort**
+    - Prevents itself to be terminated.
 
 In this exercise methods above will be avoided by user defined cancellation behavior.
 
@@ -313,18 +314,16 @@ The following are the classes you will implement in this example:
 
 ### **Create a Project**
 
-Create a C# Console project, named `Threads.ManagingThreads` in solution `Threads`.
+- Create a C# Console project, named `Threads.ManagingThreads` in solution `Threads`.
 
 ```shell
 dotnet new console --name Threads.ManagingThreads
 dotnet sln add .\Threads.ManagingThreads\Threads.ManagingThreads.csproj
 ```
 
-Add class `ConcurrentCode` to the project.
+- Add class `ConcurrentCode` to the project.
 
-Use the following namespaces:
-
-Implement a Class `ConcurrentCode`, as follows:
+- Implement a Class `ConcurrentCode`, as follows:
 
 ```csharp
 using System;
@@ -388,7 +387,7 @@ namespace Threads.ManagingThreads
 }
 ```
 
-Implement Class Program, as follows:
+- Implement Class Program, as follows:
 
 ```csharp
 using System;
@@ -444,7 +443,7 @@ namespace Threads.ManagingThreads
 
 ### **Run the Project**
 
-Execute the project and the output similar to the following will appear:
+- Execute the project and the output similar to the following will appear:
 
 ![managing-threads-output](managing-threads-output.jpg)
 
@@ -452,48 +451,48 @@ Execute the project and the output similar to the following will appear:
 
 In this exercise you will use threads from the pool.
 
-Creating and destroying threads is an expensive operation. 
-Each CLR process has a thread pool that can be reused by the application. 
-When a pool thread has completed the work it is not destroyed. Instead, it is returned to the pool and stays there in an idle state. 
+Creating and destroying threads is an expensive operation.
+Each CLR process has a thread pool that can be reused by the application.
+When a pool thread has completed the work it is not destroyed. Instead, it is returned to the pool and stays there in an idle state.
 
 The features of pool threads:
-1.	Run with the normal priority
-2.	Run always as Background
-3.	Used for short-running tasks
-4.	Cannot be aborted prematurely using Abort or Interrupt.
+
+1. Run with the normal priority
+2. Run always as Background
+3. Used for short-running tasks
+4. Cannot be aborted prematurely using Abort or Interrupt.
 
 If you need a thread with different features than those listed above use dedicated threads (created with class Thread)!
 
-To invoke an operation using a pool thread you can call method 
+To invoke an operation using a pool thread you can call method
 QueueUserWorkItem from class ThreadPool.
 
 If the thread method throws an exception that is unhandled the CLR terminates the process.
 
-
 ### **Create a Project**
 
-1. Create a C# Console project, named `Threads.UsingPools` in solution `Threads`.
+- Create a C# Console project, named `Threads.UsingPools` in solution `Threads`.
 
 ```shell
 dotnet new console --name Threads.UsingPools
 dotnet sln add Threads.UsingPools/Threads.UsingPools.csproj
 ```
 
-2. Add following namespaces to class `Program`:
+- Add following namespaces to class `Program`:
 
 ```csharp
 using System;
 using System.Threading;
 ```
 
-3. Add following fields to class `Program`
+- Add following fields to class `Program`
 
 ```csharp
 private static readonly Random random = new();
 private static readonly AsyncLocal<string> localData = new();
 ```
 
-4. Implement method `DoCompute` in class `Program`:
+- Implement method `DoCompute` in class `Program`:
 
 ```csharp
 static void DoCompute(object? state)
@@ -506,7 +505,7 @@ static void DoCompute(object? state)
 }
 ```
 
-5. Implement method `Main` in class `Program`:
+- Implement method `Main` in class `Program`:
 
 ```csharp
 public static void Main()
@@ -539,49 +538,48 @@ In this exercise you will spawn threads using class **Task**.
 
 Using a thread from the pool the programmers doesn't know (there is no built-in support) about:
 
-1.	When a thread has completed the execution
-2.	What is the return value from the thread
+1. When a thread has completed the execution
+2. What is the return value from the thread
 
 Class `Task` overcomes the previous shortcomings.
 
 A Task constructor receives:
 
- -	a delegate to the operation to be executed in a thread
- -	optionally, a CancellationToken object that is used 
- -	optionally, creation options
+- a delegate to the operation to be executed in a thread
+- optionally, a CancellationToken object that is used
+- optionally, creation options
 
 The return value is generic type specified when we construct a `Task<T>`.
 
 To distinguish a completed task from the faulting one an OperationCanceledException can be thrown.
 
-
 `Task`'s methods:
 
-- **Start** 
-    - starts a task 
-- **Run** 
+- **Start**
+    - starts a task
+- **Run**
     - creates and starts a task  
-- **Wait** 
-    -  waits (blocks) for the task to complete. If the operation in the task throws an exception the thread pool raises an exception in the Wait* or Result methods. 
-- **WaitAny** 
-    -  waits for any task in the array to complete
-- **WaitAll** 
-    -  Waits for all tasks in the array to complete
-- **WhenAll** 
-    -  Returns task which is completed when all tasks in the array complete
-- **Result** 
-    -  returns a value from the thread
+- **Wait**
+    - waits (blocks) for the task to complete. If the operation in the task throws an exception the thread pool raises an exception in the Wait* or Result methods.
+- **WaitAny**
+    - waits for any task in the array to complete
+- **WaitAll**
+    - Waits for all tasks in the array to complete
+- **WhenAll**
+    - Returns task which is completed when all tasks in the array complete
+- **Result**
+    - returns a value from the thread
 
 ### **Create a Project**
 
-1.	Create a C# Console project, named `Threads.UsingTasks` in solution `Threads`.
+- Create a C# Console project, named `Threads.UsingTasks` in solution `Threads`.
 
 ```shell
 dotnet new console --name Threads.UsingTasks
 dotnet sln add .\Threads.UsingTasks\Threads.UsingTasks.csproj
 ```
 
-2.	Use the following namespaces in file `Program.cs`:
+- Use the following namespaces in file `Program.cs`:
 
 ```csharp
 using System;
@@ -589,7 +587,7 @@ using System.Threading;
 using System.Threading.Tasks;
 ```
 
-3. Add method `DoCompute` to class `Program`:
+- Add method `DoCompute` to class `Program`:
 
 ```csharp
 private static int DoCompute(int num, CancellationToken token)
@@ -616,7 +614,7 @@ private static int DoCompute(int num, CancellationToken token)
 }
 ```
 
-4. Implement method `Main` in class `Program`:
+- Implement method `Main` in class `Program`:
 
 ```csharp
     public static void Main()
@@ -648,10 +646,9 @@ private static int DoCompute(int num, CancellationToken token)
 
 ### **Run Project**
 
-1.	Execute the project and the output similar to the following will appear:
+- Execute the project and the output similar to the following will appear:
 
 ![using-tasks-output](using-tasks-output.jpg)
-
 
 ## **Exercise 6: Provoking Races**
 
@@ -665,14 +662,14 @@ Here is the UML class diagram of the classes you will implement:
 
 ### **Creating Project**
 
-1.	Create a C# Console project, named `Threads.ProvokingRaces` in solution `Threads`.
+- Create a C# Console project, named `Threads.ProvokingRaces` in solution `Threads`.
 
 ```shell
 dotnet new console --name Threads.ProvokingRaces
 dotnet sln add Threads.ProvokingRaces/Threads.ProvokingRaces.csproj
 ```
 
-2. Add following namespaces to class `Program`
+- Add following namespaces to class `Program`
 
 ```csharp
 using System;
@@ -680,16 +677,15 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 ```
 
-
-3.	Add fields to class `Program`
+- Add fields to class `Program`
 
 ```csharp
 private const int IncrementAmount = 10000;
 private static int sum = 0;
 private static readonly object incrementLock = new();
 ```
- 
-4.	Implement Method `IncrementSumSynchronously` in class `Program`:
+
+- Implement Method `IncrementSumSynchronously` in class `Program`:
 
 ```csharp
 private static void IncrementSumSynchronously()
@@ -702,7 +698,7 @@ private static void IncrementSumSynchronously()
 }
 ```
 
-5.	Implement Method `IncrementSumParallel` in class `Program`:
+- Implement Method `IncrementSumParallel` in class `Program`:
 
 ```csharp
 private static void IncrementSumParallel()
@@ -733,7 +729,7 @@ private static void IncrementSumParallel()
 }
 ```
 
-6.	Implement Method `Main` in class `Program`:
+- Implement Method `Main` in class `Program`:
 
 ```csharp
 public static void Main()
@@ -746,35 +742,33 @@ public static void Main()
 
 ### **Run Project**
 
-1. Execute the project and the output similar to the following will appear:
+- Execute the project and the output similar to the following will appear:
 
 ![provoking-races-output](provoking-races-output.jpg)
 
 ## **Exercise 7: Using async/await**
 
-
 In this exercise you will use async await statements to write asynchronous code ins synchronous matter.
 
-The Task asynchronous programming model (TAP) provides an abstraction over asynchronous code. 
-You write code as a sequence of statements, just like always. 
-You can read that code as though each statement completes before the next begins. 
+The Task asynchronous programming model (TAP) provides an abstraction over asynchronous code.
+You write code as a sequence of statements, just like always.
+You can read that code as though each statement completes before the next begins.
 The compiler performs many transformations because some of those statements may start work and return a Task that represents the ongoing work.
 
 The **await** keyword provides a non-blocking way to start a task, then continue execution when that task completes
-Methods which should be started in non-blocking way always must have **async** modifier in its signature. 
+Methods which should be started in non-blocking way always must have **async** modifier in its signature.
 That signals to the compiler that this method contains an **await** statement; it contains asynchronous operations.
-
 
 ### **Create a Project**
 
-1. Create a C# Console project, named `Threads.AsyncAwait` in solution `Threads`.
+- Create a C# Console project, named `Threads.AsyncAwait` in solution `Threads`.
 
 ```shell
 dotnet new console --name Threads.AsyncAwait
 dotnet sln add Threads.AsyncAwait/Threads.AsyncAwait.csproj
 ```
 
-2. Add following namespaces to class `Program`:
+- Add following namespaces to class `Program`:
 
 ```csharp
 using System;
@@ -783,14 +777,14 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 ```
 
-3. Add following fields to class `Program`:
+- Add following fields to class `Program`:
 
 ```csharp
 private const int NumberOfIterations = 100;
 private static readonly Stopwatch stopwatch = new();
 ```
 
-4. Implement methods `Work` and `WorkAsync` in class `Program` to do blocking call for 100 milliseconds:
+- Implement methods `Work` and `WorkAsync` in class `Program` to do blocking call for 100 milliseconds:
 
 ```csharp
 private static void Work()
@@ -804,9 +798,9 @@ private static async Task AsyncWork()
 }
 ```
 
-5. Implement method `DoWorkSynchronously` in class `Program` to do call synchronously method `Work` for `NumberOfIterations` times:
+- Implement method `DoWorkSynchronously` in class `Program` to do call synchronously method `Work` for `NumberOfIterations` times:
 
-6. Implement method `DoWorkParallel` in class `Program`:
+- Implement method `DoWorkParallel` in class `Program`:
 
 ```csharp
 private static async Task DoWorkParallel()
@@ -822,7 +816,7 @@ private static async Task DoWorkParallel()
 }
 ```
 
-1. Implement method `DoWorkParallelAsync` in class `Program`:
+- Implement method `DoWorkParallelAsync` in class `Program`:
 
 ```csharp
 private static async Task DoWorkParallelAsync()
@@ -838,7 +832,7 @@ private static async Task DoWorkParallelAsync()
 }
 ```
 
-1. Implement method `Main` in class `Program`:
+- Implement method `Main` in class `Program`:
 
 ```csharp
 public static async Task Main()
@@ -872,8 +866,8 @@ public static async Task Main()
 
 ### **Run Project**
 
-1. Execute the project and the output similar to the following will appear:
+- Execute the project and the output similar to the following will appear:
 
 ![async-await-output](async-await-output.jpg)
 
-2. Increase value of `NumberOfIterations` and observe changes to execution times!
+- Increase value of `NumberOfIterations` and observe changes to execution times!

@@ -2,11 +2,11 @@
 
 ## Homeworks
 
- - Homeworks are graded between 0/10
- - 0 - homework is not finished
- - 10 - no comments on pull request
- - Points will be deducted for unfinished homeworks
- - Points will be deducted for late homeworks
+- Homeworks are graded between 0/10
+- 0 - homework is not finished
+- 10 - no comments on pull request
+- Points will be deducted for unfinished homeworks
+- Points will be deducted for late homeworks
 
 | Student                     | TxtToJsonAndXmlParser |
 | --------------------------- | --------------------- |
@@ -27,7 +27,7 @@
 | Roko Smoljic                | 0                     |
 | Marijan Simundic-Bendic     | 0                     |
 | Robert Sostar               | 0                     |
-| Petra Steko                 | 0                     |
+| Petra Steko                 | 6                     |
 | Eugen Vrlic                 | 0                     |
 | Patrik Zelenika             | 0                     |
-| Ivana Damjanovié            | 0                     |
+| Ivana Damjanovic            | 0                     |

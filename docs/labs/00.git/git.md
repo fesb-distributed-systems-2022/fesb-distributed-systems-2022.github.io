@@ -1,6 +1,7 @@
 # Lab 0: Git
 
 ## Table Of Contents
+
 - [Lab 0: Git](#lab-0-git)
     - [Table Of Contents](#table-of-contents)
     - [**Exercise 1: Installing and configuring git**](#exercise-1-installing-and-configuring-git)
@@ -15,15 +16,13 @@
         - [**Adding and committing code to repository**](#adding-and-committing-code-to-repository)
         - [**Creating Pull Request**](#creating-pull-request)
 
-
 ## **Exercise 1: Installing and configuring git**
 
 Git is the most used distributed version control system.
-	 
-	
+  
 ### **Download and setup git**
 
-Download git from https://git-scm.com/downloads link and choose to download for your operating system.
+Download git from <https://git-scm.com/downloads> link and choose to download for your operating system.
 
 ![select-git-components](./git-select-components.png)
 
@@ -44,7 +43,7 @@ Configure SSH for git as follows:
 ![git-ssh](./git-ssh.png)
 ![git-ssh2](./git-ssh2.png)
 
-Follow the rest of installation steps and choose default options until git is installed. 
+Follow the rest of installation steps and choose default options until git is installed.
 
 ### **Generate SSH keys**
 
@@ -62,7 +61,7 @@ and press enter for all options
 
 ![shh-keygen](./ssh-keygen.png)
 
-SSH keypair is generated default location as stated 
+SSH keypair is generated default location as stated
 `C:\Users\ivan.pazanin\.ssh\id_rsa` or more generally `C:\Users\{your-username}\.ssh\id_rsa`.
 
 ## **Exercise 2: Configuring GitHub**
@@ -71,10 +70,10 @@ GitHub is a provider of internet hosting for software development and version co
 
 ### **Adding private SSH key to GitHub**
 
-Open generated public ssh key (id_rsa.pub file) in text editor and copy all contents (CTRL+a, CTRL+c). 
+Open generated public ssh key (id_rsa.pub file) in text editor and copy all contents (CTRL+a, CTRL+c).
 
 In github go to: profile icon > Settings > SSH and GPG keys > New SSH key
-Or https://github.com/settings/keys
+Or <https://github.com/settings/keys>
 In Title input give name for your SSH key (ex: my-personal-laptop)
 In Key input paste copied public SSH key
 
@@ -85,8 +84,9 @@ To add keypress, Add SSH key, no error message should be present if everything i
 ## **Exercise 3: Creating GitHub Repository**
 
 ### **Create remote repository**
-To create remote repository on github first go to your account or organization (ex: https://github.com/fesb-distributed-systems-2022 ) 
-and press Create a new repository button (https://github.com/organizations/fesb-distributed-systems-2022/repositories/new )
+
+To create remote repository on github first go to your account or organization (ex: <https://github.com/fesb-distributed-systems-2022> )
+and press Create a new repository button (<https://github.com/organizations/fesb-distributed-systems-2022/repositories/new> )
 
 ![github-organization](./github-organization.png)
 
@@ -98,10 +98,9 @@ Description is optional, repository must be private, and finally initialize repo
 
 ![github-create-new-repository](./github-create-new-repository.png)
 
-
 ## **Exercise 4: Cloning remote git repository and creating pull request**
 
-### **Cloning repository** 
+### **Cloning repository**
 
 To clone remote repository go to created repository on github and press Code > SSH and copy contents.
 
@@ -116,7 +115,7 @@ and now you can open cloned repository with Visual Studio Code using:
 
 ![vscode-project](./vscode-project.png)
 
-You can learn more about .gitignore file on link https://git-scm.com/docs/gitignore
+You can learn more about .gitignore file on link <https://git-scm.com/docs/gitignore>
 
 ### **Adding and committing code to repository**
 
@@ -139,7 +138,7 @@ Tells me I have one un-staged file changed (README.md)
 
 To create new branch and change git to that branch use:
 
-`git checkout -b {your-branch-name}` 
+`git checkout -b {your-branch-name}`
 (ex: `git checkout -b development`)
 
 Until you know what you are doing, I recommend doing development on branch development.
@@ -186,7 +185,7 @@ git push --set-upstream origin development
 
 ### **Creating Pull Request**
 
-Once you are satisfied with code on your development branch, you can create pull request on the main branch. 
+Once you are satisfied with code on your development branch, you can create pull request on the main branch.
 
 Pull requests will merge changes to the main branch to sync their code.
 
@@ -225,11 +224,3 @@ And you will see changes done on development branch now on main branch.
 **Notes***
 
 When you get a comment on your pull request, you should correct your code accordingly and push a new commit to the remote branch using the same commands as described before.
-
-
-
-
-
-
-
-
