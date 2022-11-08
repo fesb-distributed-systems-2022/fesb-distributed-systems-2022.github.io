@@ -1,8 +1,8 @@
-# Lab 2: Synchronization
+# Synchronization
 
 ## Table Of Contents
 
-- [Lab 2: Synchronization](#lab-2-synchronization)
+- [Synchronization](#synchronization)
     - [Table Of Contents](#table-of-contents)
     - [**Exercise 1: Utilizing Multiple Cores**](#exercise-1-utilizing-multiple-cores)
         - [**Create a Project**](#create-a-project)

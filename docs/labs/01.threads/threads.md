@@ -1,8 +1,8 @@
-# Lab 1: Threads
+# Threads
 
 ## Table Of Contents
 
-- [Lab 1: Threads](#lab-1-threads)
+- [Threads](#threads)
     - [Table Of Contents](#table-of-contents)
     - [**Exercise 1: Creating Responsive UI**](#exercise-1-creating-responsive-ui)
         - [**Create a Project**](#create-a-project)
