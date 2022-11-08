@@ -10,8 +10,8 @@
 
 | Student                     | TxtToJsonAndXmlParser | Total |
 | --------------------------- | --------------------- | ----- |
-| Ana Alilovic                | 0                     | 0     |
-| Milan Arambasic             | 0                     | 0     |
+| Ana Alilovic                | 6                     | 6     |
+| Milan Arambasic             | 6                     | 6     |
 | Daniela Beric               | 6                     | 6     |
 | Vicenco Granic              | 8                     | 8     |
 | Sebastian Karl Mladen Haupt | 8                     | 8     |
@@ -31,3 +31,15 @@
 | Eugen Vrlic                 | 0                     | 0     |
 | Patrik Zelenika             | 0                     | 0     |
 | Ivana Damjanovic            | 6                     | 6     |
+
+## Questions
+
+1. Roko - async await
+2. Danijela bez J -
+3. Evanđelista - Deadlock i Race Condition
+4. Eugen - Thread, Task, Operacijski sustav, Framework
+
+## PowerPoint Presentation
+
+- Josip Nincevic - async await State Machine
+- Anđelo - kada se Task pretvori u thread

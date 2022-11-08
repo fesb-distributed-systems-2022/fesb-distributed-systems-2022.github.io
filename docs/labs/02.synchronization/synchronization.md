@@ -25,6 +25,8 @@
     - [**Exercise 7: Avoiding Deadlocks**](#exercise-7-avoiding-deadlocks)
         - [**Create a Project**](#create-a-project-6)
         - [**Run the project**](#run-the-project-5)
+    - [**Homework**](#homework)
+        - [**Setup**](#setup)
 
 ## **Exercise 1: Utilizing Multiple Cores**
 
@@ -1018,4 +1020,145 @@ Account First T6: All locks are acquired.
 Account First T6: Transfer is performed.
 Account First T6: All locks are released.
 Balances: Account: First Ballance: 0 Account: Second Ballance: 500
+```
+
+## **Homework**
+
+### **Setup**
+
+Create `data.txt` file using code below:
+
+```csharp
+// Program.cs
+//
+// © 2022 FESB in cooperation with Zoraja Consulting. All rights reserved.
+
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace Csharp;
+
+public static class Program
+{
+    private const int NumberOfRows = 100_000_000;
+
+    private static readonly Random s_random = new();
+
+    public static async Task Main()
+    {
+        var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var outputFilePath = Path.Combine(userFolder, @"Downloads\data.txt");
+
+        using var outputFileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate);
+        using var streamWriter = new StreamWriter(outputFileStream);
+
+        await streamWriter.WriteLineAsync("Type;OIB;Name;Gender;DateOfBirth;AvgGrade;Paycheck");
+
+        for (var i = 0; i < NumberOfRows; i++)
+        {
+            var personRandomNumber = s_random.Next(0, 11);
+
+            var row = personRandomNumber switch
+            {
+                0 => GetInvalidRowString(),
+                < 6 => GetProfessorRowString(i),
+                _ => GetStudentRowString(i)
+            };
+            await streamWriter.WriteLineAsync(row);
+        }
+    }
+
+    private static string GetProfessorRowString(int rowNumber)
+    {
+        var isProfessorErrorRow = s_random.Next(0, 11) == 5;
+
+        return isProfessorErrorRow
+            ? $"Professor;error;error;error;error;error;error"
+            : $"Professor;{rowNumber * 3478931 % 100000000};Name{rowNumber};{(rowNumber % 2 == 0 ? "Male" : "Female")};11/1/1999;;{rowNumber % 15 * 1000}";
+    }
+
+    private static string GetStudentRowString(int rowNumber)
+    {
+        var isStudentErrorRow = s_random.Next(0, 11) == 5;
+
+        return isStudentErrorRow
+            ? $"Student;error;error;error;error;error;error"
+            : $"Student;{rowNumber * 3478931 % 100000000};Name{rowNumber};{(rowNumber % 2 == 0 ? "Male" : "Female")};11/1/1999;{rowNumber % 5};";
+    }
+
+    private static string GetInvalidRowString()
+    {
+        return $"error;error;error;error;error;error;error";
+    }
+}
+```
+
+Your task is to:
+
+- parse these people into appropriate objects (you can reuse code from previous labs):
+- Display in console rows with preserved row number:
+    - error rows with red color
+    - students with grade below `1` with yellow color
+    - students with green color
+    - professors with blue color
+- Write rows into files:
+    - write all invalid rows into `error-rows.txt` file
+    - write all students with grade `1` or below into `failed-students.txt` file
+    - write all students with grade above `1` into `passed-students.txt` file
+    - write all professor into `professors.txt` file
+- write code that is memory and performance optimized. (Hint: use async await, tasks and producer consumers pattern)
+
+**Notes:**
+
+- This code will generate file which is about 5GB's in size.
+- Do not attempt to load whole file into memory at once
+- Use async await where ever you can
+- Throwing exceptions is slow
+- Changing colors with `Console.ForegroundColor = ConsoleColor.Yellow`:
+    - might cause race conditions since multiple threads might be outputting to console.
+    - use following class to encode colors of text in console:
+
+```csharp
+/// <summary>
+/// ANSI text format utility.
+/// </summary>
+public static class AnsiUtility
+{
+    private const string RedColor = "31";
+    private const string GreenColor = "32";
+    private const string YellowColor = "33";
+    private const string BlueColor = "34";
+    private const string WhiteColor = "37";
+
+    public static string EncodeForegroundWithRedColor(string value)
+    {
+        return Encode(value, RedColor);
+    }
+
+    public static string EncodeForegroundWithGreenColor(string value)
+    {
+        return Encode(value, GreenColor);
+    }
+
+    public static string EncodeForegroundWithYellowColor(string value)
+    {
+        return Encode(value, YellowColor);
+    }
+
+    public static string EncodeForegroundWithBlueColor(string value)
+    {
+        return Encode(value, BlueColor);
+    }
+
+    public static string EncodeForegroundWithWhiteColor(string value)
+    {
+        return Encode(value, WhiteColor);
+    }
+
+    private static string Encode(string value, params object?[] parameters)
+    {
+        return $"\u001b[{string.Join(";", parameters)}m{value}\u001b[0m";
+    }
+}
 ```
