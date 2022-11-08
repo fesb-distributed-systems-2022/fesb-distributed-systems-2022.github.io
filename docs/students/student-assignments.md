@@ -35,7 +35,7 @@
 ## Questions
 
 1. Roko - async await
-2. Danijela bez J -
+2. Danijela bez J - locks vs semaphore
 3. Evanđelista - Deadlock i Race Condition
 4. Eugen - Thread, Task, Operacijski sustav, Framework
 

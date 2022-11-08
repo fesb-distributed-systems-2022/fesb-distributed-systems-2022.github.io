@@ -90,9 +90,9 @@ In Server project implement:
             protocolType: ProtocolType.Tcp);        
 ```
 
-- Using method `Bind` and `Listen` prepare socket for incoming connections
+- Using method `Bind` and `Listen` on `listenerSocket`, prepare socket for incoming connections
 
-- Create infinite loop in which socket will accept and respond to incoming connections:
+- In method `StartListening` create infinite loop in which socket will accept and respond to incoming connections:
 
 ```csharp
         while (true)
@@ -107,7 +107,7 @@ In Server project implement:
     - That receives `handler` socket using `listener.Accept()` method
     - Puts data from `handler` socket into buffer `var bytesReceived = handler.Receive(_requestDataBuffer, _requestDataBuffer.Length, SocketFlags.None)`
     - Decodes received data using method `Encoding.UTF8.GetString` and displays it on console
-    - Encodes `responseData` into `UTF8`
+    - Encodes `responseData` into `Encoding.UTF8` with method `GetBytes`
     - Sends encoded bytes using `handler.Send` method
     - Closes `handler` socket using `handler.Close` method
 
@@ -149,11 +149,11 @@ In Client project implement:
             protocolType: ProtocolType.Tcp);
 ```
 
-- Connect to remote socket using method `Connect`
-- Send **UTF8** encoded data (`string requestData`) using `Send` method
+- Connect to remote socket using method `sender.Connect`
+- Send **UTF8** encoded data (`string requestData`) using `sender.Send` method
 - Receive **UTF8** encoded data using `Receive(_responseDataBuffer)` and write it to console
 - Decode received data from **UTF8** to string and display it to console
-- close connection using methods `ShutDown(SocketShutdown.Both)` and `Close`
+- close connection using methods `sender.ShutDown(SocketShutdown.Both)` and `sender.Close`
 - In class `Program` implement method `Main`:
 
 ```csharp
