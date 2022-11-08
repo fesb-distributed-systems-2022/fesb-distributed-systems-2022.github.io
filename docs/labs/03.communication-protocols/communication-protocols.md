@@ -1,20 +1,20 @@
-# **Communication Protocols**
+# Communication Protocols
 
-## **Table of COntents**
+## **Table of Contents**
 
-- [**Communication Protocols**](#communication-protocols)
-    - [**Table of COntents**](#table-of-contents)
+- [Communication Protocols](#communication-protocols)
+    - [**Table of Contents**](#table-of-contents)
         - [**Objectives**](#objectives)
-    - [**Exercise 1**: Creating listener socket](#exercise-1-creating-listener-socket)
+    - [**Exercise 1: Creating listener socket**](#exercise-1-creating-listener-socket)
         - [**Create solution**](#create-solution)
         - [**Create Socket Listener**](#create-socket-listener)
-    - [**Exercise 2**: Creating client socket](#exercise-2-creating-client-socket)
-    - [**Exercise 3**: Test code](#exercise-3-test-code)
+    - [**Exercise 2: Creating client socket**](#exercise-2-creating-client-socket)
+    - [**Exercise 3: Test code**](#exercise-3-test-code)
         - [**Loopback IP address**](#loopback-ip-address)
         - [**Any IP address**](#any-ip-address)
-    - [**Exercise 4**: Simple HTTP Socket server](#exercise-4-simple-http-socket-server)
+    - [**Exercise 4: Simple HTTP Socket server**](#exercise-4-simple-http-socket-server)
         - [**Simple HTTP Server:**](#simple-http-server)
-    - [**Exercise 5**: HTTP Client and Listener](#exercise-5-http-client-and-listener)
+    - [**Exercise 5: HTTP Client and Listener**](#exercise-5-http-client-and-listener)
         - [Create project](#create-project)
         - [Implement HTTP Server](#implement-http-server)
         - [Implement HTTP Client](#implement-http-client)
@@ -34,11 +34,7 @@ receiving data across the network.
 identify machine on network and **TCP port** used to
 identify application on machine.
 
-Estimated time to complete this lab: 90 min
-
----
-
-## **Exercise 1**: Creating listener socket
+## **Exercise 1: Creating listener socket**
 
 Listener socket is socket which waits for incoming connection on defined
 **network socket**.
@@ -122,7 +118,7 @@ In Server project implement:
         socketServer.StartListening("Hola Mundo de SocketServer");
 ```
 
-## **Exercise 2**: Creating client socket
+## **Exercise 2: Creating client socket**
 
 Client socket is socket which connects to remote
 socket, sends some request and reads response.
@@ -166,7 +162,7 @@ In Client project implement:
         clientSocket.SendMessage("Hola Mundo de Client");
 ```
 
-## **Exercise 3**: Test code
+## **Exercise 3: Test code**
 
 ### **Loopback IP address**
 
@@ -221,7 +217,7 @@ Port numbers must also be same!
 
 Run projects and you should be able to communicate over wire using sockets!
 
-## **Exercise 4**: Simple HTTP Socket server
+## **Exercise 4: Simple HTTP Socket server**
 
 **HTTP** is application layer protocol which defines how data is exchanged between server and client.
 
@@ -280,7 +276,7 @@ var httpResponse = $"{statusLine}{responseHeader}\r\n{responseBody}";
 
 ![client output](client-example-2-output.png)
 
-## **Exercise 5**: HTTP Client and Listener
+## **Exercise 5: HTTP Client and Listener**
 
 **.NET** framework provides built in support for HTTP:
 
