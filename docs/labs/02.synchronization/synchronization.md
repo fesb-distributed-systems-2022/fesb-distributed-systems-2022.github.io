@@ -1075,7 +1075,7 @@ public static class Program
 
         return isProfessorErrorRow
             ? $"Professor;error;error;error;error;error;error"
-            : $"Professor;{rowNumber * 3478931 % 100000000};Name{rowNumber};{(rowNumber % 2 == 0 ? "Male" : "Female")};11/1/1999;;{rowNumber % 15 * 1000}";
+            : $"Professor;{rowNumber * 3478931L % 100000000};Name{rowNumber};{(rowNumber % 2 == 0 ? "Male" : "Female")};11/1/1999;;{rowNumber % 15 * 1000}";
     }
 
     private static string GetStudentRowString(int rowNumber)
@@ -1084,7 +1084,7 @@ public static class Program
 
         return isStudentErrorRow
             ? $"Student;error;error;error;error;error;error"
-            : $"Student;{rowNumber * 3478931 % 100000000};Name{rowNumber};{(rowNumber % 2 == 0 ? "Male" : "Female")};11/1/1999;{rowNumber % 5};";
+            : $"Student;{rowNumber * 3478931L % 100000000};Name{rowNumber};{(rowNumber % 2 == 0 ? "Male" : "Female")};11/1/1999;{rowNumber % 5};";
     }
 
     private static string GetInvalidRowString()
