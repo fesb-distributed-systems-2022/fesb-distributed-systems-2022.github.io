@@ -99,7 +99,7 @@ In Server project implement:
         {
             Console.WriteLine($"Waiting for a connection on port {_portNumber}...");
             // Start listening for connections.  
-            AcceptConnectionAndSendResponse(listener, responseData);
+            AcceptConnectionAndSendResponse(listenerSocket, responseData);
         }
 ```
 
