@@ -235,7 +235,7 @@ public class StudentsRepository
     private readonly IEnumerable<Subject> _subjects = new[]
     {
         new Subject(1, "PIZ", 10),
-        new Subject(2, "DIS", 12),re
+        new Subject(2, "DIS", 12),
     };
 
     private readonly ICollection<Student> _students;
@@ -461,6 +461,9 @@ Following is proposed implementation for **GET** requests:
                     var studentString = JsonSerializer.Serialize(student);
 
                     return (studentString, HttpStatusCode.OK);
+                
+                default:
+                    return ("Not Implemented", HttpStatusCode.NotImplemented);
             }
         }
         catch (Exception e)
