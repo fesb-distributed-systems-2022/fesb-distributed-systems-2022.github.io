@@ -42,5 +42,4 @@
 
 ## Pioniri
 
-- Josip Nincevic - async await State Machine
-- Anđelo - kada se Task pretvori u thread
+- ❌ Josip Nincevic - async await State Machine
