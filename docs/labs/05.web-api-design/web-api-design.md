@@ -116,7 +116,7 @@ dotnet add WebApiDesign.GraphQlApi/WebApiDesign.GraphQlApi.csproj package GraphQ
 - In project `WebApiDesign.Model` add class and file `Subject`:
 
 ```csharp
-namespace HttpProgramming.Model;
+namespace WebApiDesign.Model;
 
 public class Subject
 {
@@ -138,7 +138,7 @@ public class Subject
 - In project `WebApiDesign.Model` add class and file `Student`:
 
 ```csharp
-namespace HttpProgramming.Model;
+namespace WebApiDesign.Model;
 
 public class Student
 {
@@ -171,7 +171,7 @@ public class Student
 - In project `WebApiDesign.Model` add class and file `StudentsRepository`:
 
 ```csharp
-namespace HttpProgramming.Model;
+namespace WebApiDesign.Model;
 
 public class StudentsRepository
 {
@@ -365,7 +365,7 @@ public class WebApiDesignSchema : Schema
     public WebApiDesignSchema(IServiceProvider serviceProvider) : base(serviceProvider)
     {
         Query = serviceProvider.GetRequiredService<StudentQuery>();
-        Mutation = serviceProvider.GetRequiredService<StudentMutation>();
+        //Mutation = serviceProvider.GetRequiredService<StudentMutation>();
     }
 }
 ```
@@ -439,6 +439,24 @@ app.Run();
 ![postman-get-student-graphql-query-2](postman-get-student-graphql-query-2.jpg)
 
 ## **Exercise 2: GraphQL Mutations**
+
+- In folder `GraphQlTypes` modify file `WebApiDesignSchema.cs` with following contents:
+
+```csharp
+using GraphQL.Types;
+
+namespace WebApiDesign.GraphQlApi.GraphQlTypes;
+
+public class WebApiDesignSchema : Schema
+{
+
+    public WebApiDesignSchema(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+        Query = serviceProvider.GetRequiredService<StudentQuery>();
+        Mutation = serviceProvider.GetRequiredService<StudentMutation>();
+    }
+}
+```
 
 - In project `WebApiDesign.GraphQlApi` in folder `GraphQlTypes` implement class `StudentMutation`:
 
