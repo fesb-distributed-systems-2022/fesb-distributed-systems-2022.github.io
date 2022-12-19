@@ -445,6 +445,11 @@ Following is proposed implementation for **GET** requests:
                         return (responseData, HttpStatusCode.OK);
                     }
 
+                    if(!requestUrl.StartsWith("/students/"))
+                    {
+                        return ("Not Found", HttpStatusCode.NotFound);
+                    }
+
                     var getStudentId = GetStudentIdFromInputUrl(requestUrl);
                     if (!getStudentId.HasValue)
                     {
