@@ -487,7 +487,6 @@ public class StudentMutation : ObjectGraphType
 
 - Add field `deleteStudent` which deletes student using `studentsRepository`
     - It receives int argument `id`
-    - It receives non nullable string argument `name`
     - It returns deleted student
 
 ### **Run and test project**
