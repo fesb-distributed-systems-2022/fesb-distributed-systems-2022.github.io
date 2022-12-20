@@ -556,7 +556,7 @@ Add reference to project `WebApiDesign.Model` in project `WebApiDesign.GrpcApi`
 dotnet add WebApiDesign.GrpcApi/WebApiDesign.GrpcApi.csproj reference WebApiDesign.Model/WebApiDesign.Model.csproj
 ```
 
-Add GraphQL packages to `WebApiDesign.GrpcApi` project:
+Add **gRPC** packages to `WebApiDesign.GrpcApi` project:
 
 ```sh
 dotnet add WebApiDesign.GrpcApi/WebApiDesign.GrpcApi.csproj package Grpc.AspNetCore
