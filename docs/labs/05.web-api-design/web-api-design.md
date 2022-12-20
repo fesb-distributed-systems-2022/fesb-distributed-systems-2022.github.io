@@ -13,6 +13,12 @@
         - [**Run and test project**](#run-and-test-project)
     - [**Exercise 2: GraphQL Mutations**](#exercise-2-graphql-mutations)
         - [**Run and test project**](#run-and-test-project-1)
+    - [**Exercise 3: gRPC Queries**](#exercise-3-grpc-queries)
+        - [**Protocol Buffers**](#protocol-buffers)
+        - [**Create Project**](#create-project)
+        - [**Run and test project**](#run-and-test-project-2)
+    - [**Exercise 4: gRPC Commands**](#exercise-4-grpc-commands)
+        - [**Run and test project**](#run-and-test-project-3)
 
 ### **Requirements**
 
@@ -493,3 +499,257 @@ public class StudentMutation : ObjectGraphType
 
 Run and test project using Postman application.
 
+## **Exercise 3: gRPC Queries**
+
+**gRPC** is a modern open source high performance Remote Procedure Call (RPC) framework that can run in any environment.
+It can efficiently connect services in and across data centers with pluggable support for load balancing, tracing, health checking and authentication.
+It is also applicable in last mile of distributed computing to connect devices, mobile applications and browsers to backend services.
+
+### **Protocol Buffers**
+
+**gRPC** can use protocol buffers as both its Interface Definition Language (IDL) and as its underlying message interchange format.
+In gRPC, a client application can directly call a method on a server application on a different machine as if it were a local object (**Proxy Pattern**),
+making it easier for you to create distributed applications and services.
+As in many **RPC** systems, **gRPC** is based around the idea of defining a service,
+specifying the methods that can be called remotely with their parameters and return types.
+On the server side, the server implements this interface and runs a gRPC server to handle client calls.
+On the client side, the client has a stub (referred to as just a client in some languages) that provides the same methods as the server.
+
+Example of simple **protobuf** (Protocol Buffers) definition:
+
+```protobuf
+// The greeter service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+```
+
+This message defines request `SayHello` on `Greeter` service
+which receives object of type `HelloRequest` containing field `name`
+and returns object of type `HelloReply` containing field `message`.
+
+This definition is language agnostic meaning any language can implement it, both client and server side.
+
+### **Create Project**
+
+- Create new webapi project `WebApiDesign.GrpcApi` and add it to solution `WebApiDesign`.
+
+```sh
+dotnet new webapi --name WebApiDesign.GrpcApi
+dotnet sln add WebApiDesign.GrpcApi/WebApiDesign.GrpcApi.csproj
+```
+
+Add reference to project `WebApiDesign.Model` in project `WebApiDesign.GrpcApi`
+
+```sh
+dotnet add WebApiDesign.GrpcApi/WebApiDesign.GrpcApi.csproj reference WebApiDesign.Model/WebApiDesign.Model.csproj
+```
+
+Add GraphQL packages to `WebApiDesign.GrpcApi` project:
+
+```sh
+dotnet add WebApiDesign.GrpcApi/WebApiDesign.GrpcApi.csproj package Grpc.AspNetCore
+```
+
+- In project `WebApiDesign.GrpcApi` delete folder `Controllers` and file `WeatherForecast.cs`:
+- Modify file `Program` to look as following:
+
+```csharp
+using WebApiDesign.GrpcApi.Apis;
+using WebApiDesign.Model;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddGrpc();
+builder.Services.AddSingleton(_ => new StudentsRepository(10));
+
+var app = builder.Build();
+
+app.UseRouting();
+app.MapGrpcService<StudentsApi>();
+
+app.Run();
+```
+
+- In project `WebApiDesign.GrpcApi` add new folder `Protos`
+- In folder `Protos` create file `students.proto` with following contents:
+
+```protobuf
+syntax = "proto3";
+
+service StudentsService {
+  rpc GetStudents (GetStudentsRequest) returns (GetStudentsResponse);
+  
+  rpc GetStudent (GetStudentRequest) returns (GetStudentResponse);
+}
+
+message SubjectType {
+    int32 id = 1;
+    string name = 2;
+    int32 ect = 3;
+}
+
+message DateOnlyType {
+    int32 year = 1;
+    int32 month = 2;
+    int32 day = 3;
+}
+
+message StudentType {
+    int32 id = 1;
+    string name = 2;
+    DateOnlyType dob = 3;
+    repeated double grades = 4;
+    repeated SubjectType subjects = 5;
+}
+
+message GetStudentsRequest { }
+
+message GetStudentsResponse {
+    repeated StudentType students = 1;
+}
+
+message GetStudentRequest { 
+    int32 id = 1;
+}
+
+message GetStudentResponse {
+    StudentType student = 1;
+}
+```
+
+- Include proto file in `WebApiDesign.GrpcApi.csproj`:
+
+```xml
+  <ItemGroup>
+    <Protobuf Include="Protos\students.proto" />
+  </ItemGroup>
+```
+
+- Create new file `StudentsApi.cs` in folder `Apis` and add following implementation:
+
+```csharp
+using Grpc.Core;
+using WebApiDesign.Model;
+
+namespace WebApiDesign.GrpcApi.Apis;
+
+public class StudentsApi : StudentsService.StudentsServiceBase
+{
+    private readonly StudentsRepository _studentsRepository;
+
+    public StudentsApi(StudentsRepository studentsRepository)
+    {
+        _studentsRepository = studentsRepository;
+    }
+
+    public override Task<GetStudentsResponse> GetStudents(GetStudentsRequest request, ServerCallContext context)
+    {
+        var students = _studentsRepository
+            .GetAllStudents()
+            .Select(MapStudentToStudentType);
+
+        var response = new GetStudentsResponse();
+        response.Students.AddRange(students);
+
+        return Task.FromResult(response);
+    }
+
+    public override Task<GetStudentResponse> GetStudent(GetStudentRequest request, ServerCallContext context)
+    {
+        var student = _studentsRepository.GetStudent(request.Id);
+
+        if (student is null)
+        {
+            var status = new Status(StatusCode.NotFound, "Student was not found");
+            throw new RpcException(status, "Student was not found");
+        }
+
+        var response = new GetStudentResponse
+        {
+            Student = MapStudentToStudentType(student),
+        };
+
+        return Task.FromResult(response);
+    }
+
+    private StudentType MapStudentToStudentType(Student student)
+    {
+        var studentType = new StudentType
+        {
+            Id = student.Id,
+            Name = student.Name,
+            Dob = new DateOnlyType
+            {
+                Year = student.Dob.Year,
+                Month = student.Dob.Month,
+                Day = student.Dob.Day,
+            },
+        };
+
+        studentType.Grades.AddRange(student.Grades);
+
+        var subjects = studentType.Subjects.Select(subject => new SubjectType
+        {
+            Id = subject.Id,
+            Name = subject.Name,
+            Ect = subject.Ect,
+        });
+        studentType.Subjects.AddRange(subjects);
+
+        return studentType;
+    }
+}
+```
+
+### **Run and test project**
+
+- In Postman application create new gRPC request:
+
+![postman-new-grpc-request](postman-new-grpc-request.jpg)
+
+- In request import protofile definitions:
+
+![postman-grpc-request-import-protofile](postman-grpc-request-import-protofile.jpg)
+
+- Set server URL (**https port**) and enable TLS:
+
+![postman-grpc-request-url](postman-grpc-request-url.jpg)
+
+- Select method you want to test and write appropriate message:
+
+![postman-get-student-grpc-query](postman-get-student-grpc-query.jpg)
+
+## **Exercise 4: gRPC Commands**
+
+- In `Protos/students.proto` file define methods on `StudentsService`:
+    - CreateStudent
+        - Which receives message containing students name
+        - Validates name and returns appropriate response
+        - Creates student using `StudentRepository`
+        - Returns empty message
+    - UpdateStudent
+        - Which receives message containing students name and id
+        - Validates name and returns appropriate response
+        - Updates student using `StudentRepository`
+        - Returns empty message
+    - DeleteStudent
+        - Which receives message containing students id
+        - Deletes student using `StudentRepository`
+        - Returns empty message
+
+- In file `StudentApi` override newly added methods and implement them accordingly
+
+### **Run and test project**
+
+- In Postman application create new gRPC requests for added methods and test them.
