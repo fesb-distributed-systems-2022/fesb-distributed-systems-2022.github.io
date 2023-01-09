@@ -735,12 +735,12 @@ public class StudentsApi : StudentsService.StudentsServiceBase
 - In `Protos/students.proto` file define methods on `StudentsService`:
     - CreateStudent
         - Which receives message containing students name
-        - Validates name and returns appropriate response
+        - Validates that name is not empty and returns appropriate response
         - Creates student using `StudentRepository`
         - Returns empty message
     - UpdateStudent
         - Which receives message containing students name and id
-        - Validates name and returns appropriate response
+        - Validates  that name is not empty name and returns appropriate response
         - Updates student using `StudentRepository`
         - Returns empty message
     - DeleteStudent
