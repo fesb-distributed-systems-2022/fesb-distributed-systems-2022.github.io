@@ -13,7 +13,9 @@
         - [**Run and test container**](#run-and-test-container)
         - [**Clean Resources**](#clean-resources)
     - [**Exercise 2: Cloud Providers**](#exercise-2-cloud-providers)
-        - [Creating Container Registry](#creating-container-registry)
+        - [Publishing image to container registry](#publishing-image-to-container-registry)
+        - [Creating Azure Student Account](#creating-azure-student-account)
+        - [Creating Azure Container Instance](#creating-azure-container-instance)
 
 ### **Requirements**
 
@@ -220,16 +222,40 @@ There are three big cloud providers:
 
 In this exercise you will use Azure.
 
+### Publishing image to container registry
+
+To run container we need to put built image somewhere accessible by azure services.
+You can host it on any container registry, docker hub provides easy and free access.
+
+- Create account on [docker-hub](https://hub.docker.com/)
+
+- Create new public repository on docker hub:
+
+- In docker desktop login do dockerhub account
+
+![docker-hub-repo](docker-hub-repo.jpg)
+
+- Tag local image (build it again if you have deleted it) to remote repository:
+
+```sh
+docker image tag containerized-web-api:latest {Your Username}/containerized-web-app:latest
+docker push {Your Username}/containerized-web-app:latest
+```
+
+Here is an example with account username:
+
+```sh
+docker image tag containerized-web-api:latest ipazanin/containerized-web-app:latest
+docker push ipazanin/containerized-web-app:latest
+```
+
+You should be able to see your docker image on docker hub if everything went accordingly:
+
+![docker-hub-images](docker-hub-images.jpg)
+
+### Creating Azure Student Account
+
 - Go to [Portal](https://portal.azure.com/#home) and login using your fesb account.
-
-### Creating Container Registry
-
-To run container we need to put built image somewhere accessible by azure services. 
-You can host it on some other cloud but it is best to put all services on one provider.
-
-- Search for Container Registry:
-
-![container-registry](container-registry.jpg)
 
 - When asked select Azure student benefits:
 
@@ -241,4 +267,38 @@ You can host it on some other cloud but it is best to put all services on one pr
 
 - Follow instructions to finished setting up a free account.
 
-- When all is setup create container registry
+- When all is finished you should have student account with 100$
+
+### Creating Azure Container Instance
+
+- On Azure portal find Container Instances in search and start creating new Container Instance
+
+- Setup basics page similar to this (change docker image path):
+
+![azure-container-instance-basics](azure-container-instance-basics.jpg)
+
+- On Networking tab set DNS name label:
+
+![azure-container-instance-networking](azure-container-instance-networking.jpg)
+
+- Review and Create Page:
+
+![azure-container-instance-review](azure-container-instance-review.jpg)
+
+- Press Create to deploy your container image to azure instance
+
+- Wait for deployment to finish and then navigate to created resource:
+
+![azure-container-instance-deployed](azure-container-instance-deployed.jpg)
+
+- Wait for few minutes and then try to access web page using DNS name assigned by azure (FQDN)
+
+For example: 
+
+`http://containarized-web-app.fkejhxa8exe5fsec.eastus.azurecontainer.io/api/hello`
+
+![containerized-web-app](containerized-web-app.jpg)
+
+When you are finished, delete azure container instance to save resources!
+
+![delete-azure-container-instance](delete-azure-container-instance.jpg)
